@@ -12,11 +12,7 @@ defmodule Tasks3Web.TaskController do
   end
 
   def create(conn, %{"task" => task_params}) do
-    {t,""}=Integer.parse(task_params["time_taken"])
-    if(rem(t,15) != 0) do
-      IO.inspect "error"
-      render(conn,"show.json",task: "error")
-    end
+
     with {:ok, %Task{} = task} <- Tasks.create_task(task_params) do
       conn
       |> put_status(:created)
@@ -32,11 +28,7 @@ defmodule Tasks3Web.TaskController do
 
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Tasks.get_task!(id)
-    {t,""}=Integer.parse(task_params["time_taken"])
-    if(rem(t,15) != 0) do
-      IO.inspect "error"
-      render(conn,"show.json",task: "error")
-    end
+    
     with {:ok, %Task{} = task} <- Tasks.update_task(task, task_params) do
       render(conn, "show.json", task: task)
     end
@@ -49,3 +41,4 @@ defmodule Tasks3Web.TaskController do
     end
   end
 end
+

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
@@ -23,6 +22,8 @@ function TaskForm(props) {
     if(props.form.time_taken%15 != 0)
     {
       alert("Time can only be a multiple of 15");
+    }else if (props.form.user_id=="") {
+      alert("Select a user to assign task to.");
     }else{
       api.submit_task(props.form);
       //clear(ev);
@@ -33,8 +34,11 @@ function TaskForm(props) {
   function edit(ev) {
     if(props.form.time_taken%15 != 0)
     {
-      alert("Time can only be a multiple of 15");
-    }else{
+      alert("Time can only be a multiple of 15.");
+    }else if (props.form.user_id=="") {
+      alert("Select a user to assign task to.");
+    }
+    else{
       api.update_task(props.form,props.id);
       //clear(ev);
       //console.log(props.form);
@@ -61,6 +65,7 @@ function TaskForm(props) {
       <FormGroup>
         <Label for="user_id">User*</Label>
         <Input type="select" name="user_id" value={props.form.user_id} onChange={update}>
+          <option value="">Select</option>
           { users }
         </Input>
       </FormGroup>
@@ -102,3 +107,4 @@ function state2props(state) {
 
 // Export the result of a curried function call.
 export default connect(state2props)(TaskForm);
+
